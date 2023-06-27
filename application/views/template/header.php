@@ -20,6 +20,8 @@ License: You must have a valid license purchased only from themeforest(the above
         <title>SPK Penilaian Karyawan Kontrak</title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="<?php echo base_url('/assets/dist/css/app.css'); ?>" />
+        
+        
         <!-- END: CSS Assets-->
     </head>
     <!-- END: Head -->
