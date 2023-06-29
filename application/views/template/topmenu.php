@@ -19,6 +19,24 @@
                         <div class="top-menu__title"> Data User </div>
                     </a>
                 </li>
+                <li>
+                    <a href="<?php echo base_url("master/unit")?>" class="top-menu">
+                        <div class="top-menu__icon"> <i data-feather="package"></i> </div>
+                        <div class="top-menu__title"> Data Unit </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url("master/kriteria")?>" class="top-menu">
+                        <div class="top-menu__icon"> <i data-feather="layers"></i> </div>
+                        <div class="top-menu__title"> Data Kriteria </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url("master/karyawan")?>" class="top-menu">
+                        <div class="top-menu__icon"> <i data-feather="user"></i> </div>
+                        <div class="top-menu__title"> Data Karyawan Kontrak </div>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>

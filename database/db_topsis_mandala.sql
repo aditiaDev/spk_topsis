@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2023 at 08:41 AM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.3.19
+-- Waktu pembuatan: 29 Jun 2023 pada 16.04
+-- Versi server: 10.4.10-MariaDB
+-- Versi PHP: 7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_batas_kontrak`
+-- Struktur dari tabel `tb_batas_kontrak`
 --
 
 CREATE TABLE `tb_batas_kontrak` (
@@ -35,7 +36,7 @@ CREATE TABLE `tb_batas_kontrak` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_hasil_penilaian`
+-- Struktur dari tabel `tb_hasil_penilaian`
 --
 
 CREATE TABLE `tb_hasil_penilaian` (
@@ -49,7 +50,7 @@ CREATE TABLE `tb_hasil_penilaian` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_karyawan_kontrak`
+-- Struktur dari tabel `tb_karyawan_kontrak`
 --
 
 CREATE TABLE `tb_karyawan_kontrak` (
@@ -63,10 +64,18 @@ CREATE TABLE `tb_karyawan_kontrak` (
   `tgl_kontrak` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `tb_karyawan_kontrak`
+--
+
+INSERT INTO `tb_karyawan_kontrak` (`id_karyawan`, `id_unit`, `nm_karyawan`, `alamat_karyawan`, `no_karyawan`, `jenis_kelamin`, `tgl_masuk`, `tgl_kontrak`) VALUES
+('T2300001', 'A00001', 'Karyawan 1', 'Kudus', '085324786789', 'LAKI-LAKI', '2020-11-18', '2020-11-18'),
+('T2323001', 'A00001', 'Karyawan 2', 'Jepara', '089879879823', 'PEREMPUAN', '2023-06-01', '2023-06-01');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_kriteria`
+-- Struktur dari tabel `tb_kriteria`
 --
 
 CREATE TABLE `tb_kriteria` (
@@ -76,10 +85,21 @@ CREATE TABLE `tb_kriteria` (
   `jenis_kriteria` enum('MAX','MIN') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `tb_kriteria`
+--
+
+INSERT INTO `tb_kriteria` (`id_kriteria`, `nm_kriteria`, `bobot_kriteria`, `jenis_kriteria`) VALUES
+('K00001', 'Attitude', 30, 'MAX'),
+('K00002', 'Nilai Kehadiran', 25, 'MAX'),
+('K00003', 'Kemampuan', 25, 'MAX'),
+('K00004', 'Aktif/ Loyalitas', 15, 'MAX'),
+('K00005', 'Umur', 10, 'MIN');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_penilaian_karyawan`
+-- Struktur dari tabel `tb_penilaian_karyawan`
 --
 
 CREATE TABLE `tb_penilaian_karyawan` (
@@ -92,7 +112,7 @@ CREATE TABLE `tb_penilaian_karyawan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_unit`
+-- Struktur dari tabel `tb_unit`
 --
 
 CREATE TABLE `tb_unit` (
@@ -102,10 +122,18 @@ CREATE TABLE `tb_unit` (
   `kepala_unit` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `tb_unit`
+--
+
+INSERT INTO `tb_unit` (`id_unit`, `id_user`, `nm_unit`, `kepala_unit`) VALUES
+('A00001', 'U2300004', 'Unit 1', 'Kepala Unit 1'),
+('A00002', 'U2300006', 'Unit 2', 'Kepala Unit 2');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_user`
+-- Struktur dari tabel `tb_user`
 --
 
 CREATE TABLE `tb_user` (
@@ -117,47 +145,59 @@ CREATE TABLE `tb_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data untuk tabel `tb_user`
+--
+
+INSERT INTO `tb_user` (`id_user`, `username`, `password`, `nm_pengguna`, `level`) VALUES
+('U2300001', 'admin', 'admin', 'Admin HRD', 'ADMIN'),
+('U2300002', 'admin2', 'admin2', 'ADMIN 2', 'ADMIN'),
+('U2300003', 'karyawan1', 'karyawan1', 'Karyawan 1', 'KARYAWAN'),
+('U2300004', 'kepala', 'kepala', 'Kepala Unit 1', 'KEPALA UNIT'),
+('U2300005', 'karyawan2', 'karyawan2', 'Karaywan 2', 'KARYAWAN'),
+('U2300006', 'kepala2', 'kepala2', 'Kepala Unit 2', 'KEPALA UNIT');
+
+--
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `tb_batas_kontrak`
+-- Indeks untuk tabel `tb_batas_kontrak`
 --
 ALTER TABLE `tb_batas_kontrak`
   ADD PRIMARY KEY (`id_batas_kontrak`);
 
 --
--- Indexes for table `tb_hasil_penilaian`
+-- Indeks untuk tabel `tb_hasil_penilaian`
 --
 ALTER TABLE `tb_hasil_penilaian`
   ADD PRIMARY KEY (`id_hasil`);
 
 --
--- Indexes for table `tb_karyawan_kontrak`
+-- Indeks untuk tabel `tb_karyawan_kontrak`
 --
 ALTER TABLE `tb_karyawan_kontrak`
   ADD PRIMARY KEY (`id_karyawan`);
 
 --
--- Indexes for table `tb_kriteria`
+-- Indeks untuk tabel `tb_kriteria`
 --
 ALTER TABLE `tb_kriteria`
   ADD PRIMARY KEY (`id_kriteria`);
 
 --
--- Indexes for table `tb_penilaian_karyawan`
+-- Indeks untuk tabel `tb_penilaian_karyawan`
 --
 ALTER TABLE `tb_penilaian_karyawan`
   ADD PRIMARY KEY (`id_penilaian_karyawan`);
 
 --
--- Indexes for table `tb_unit`
+-- Indeks untuk tabel `tb_unit`
 --
 ALTER TABLE `tb_unit`
   ADD PRIMARY KEY (`id_unit`);
 
 --
--- Indexes for table `tb_user`
+-- Indeks untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
   ADD PRIMARY KEY (`id_user`);

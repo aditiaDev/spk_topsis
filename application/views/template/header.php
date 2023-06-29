@@ -20,12 +20,22 @@ License: You must have a valid license purchased only from themeforest(the above
         <title>SPK Penilaian Karyawan Kontrak</title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="<?php echo base_url('/assets/dist/css/app.css'); ?>" />
-        
+        <link rel="stylesheet" href="<?php echo base_url('/assets/toastr/toastr.min.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('/assets/css/loader.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('/assets/select2/styles.css'); ?>">
+        <style>
+          .col-span-8 {
+              grid-column: span 8 / span 8;
+          }
+        </style>
         
         <!-- END: CSS Assets-->
     </head>
     <!-- END: Head -->
     <body class="py-5">
+      <div class="before-loader" id="LOADER" style="display: none;">
+        <div class="loader5" ></div>
+      </div>
         <!-- BEGIN: Mobile Menu -->
         <div class="mobile-menu md:hidden">
             <div class="mobile-menu-bar">
