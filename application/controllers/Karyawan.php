@@ -92,10 +92,14 @@ class Karyawan extends CI_Controller {
   public function updateData(){
 
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('id_kriteria', 'id_kriteria', 'required');
-    $this->form_validation->set_rules('nm_kriteria', 'nm_kriteria', 'required');
-    $this->form_validation->set_rules('bobot_kriteria', 'bobot_kriteria', 'required|numeric');
-    $this->form_validation->set_rules('jenis_kriteria', 'jenis_kriteria', 'required');
+    $this->form_validation->set_rules('id_karyawan', 'id_karyawan', 'required');
+    $this->form_validation->set_rules('nm_karyawan', 'nm_karyawan', 'required');
+    $this->form_validation->set_rules('alamat_karyawan', 'alamat_karyawan', 'required');
+    $this->form_validation->set_rules('id_unit', 'id_unit', 'required');
+    $this->form_validation->set_rules('no_karyawan', 'no_karyawan', 'required');
+    $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required');
+    $this->form_validation->set_rules('tgl_masuk', 'tgl_masuk', 'required');
+    $this->form_validation->set_rules('tgl_kontrak', 'tgl_kontrak', 'required');
 
     if($this->form_validation->run() == FALSE){
       // echo validation_errors();
@@ -105,12 +109,16 @@ class Karyawan extends CI_Controller {
     }
 
     $data = array(
-      "nm_kriteria" => $this->input->post('nm_kriteria'),
-      "bobot_kriteria" => $this->input->post('bobot_kriteria'),
-      "jenis_kriteria" => $this->input->post('jenis_kriteria'),
+        "id_unit" => $this->input->post('id_unit'),
+        "nm_karyawan" => $this->input->post('nm_karyawan'),
+        "alamat_karyawan" => $this->input->post('alamat_karyawan'),
+        "no_karyawan" => $this->input->post('no_karyawan'),
+        "jenis_kelamin" => $this->input->post('jenis_kelamin'),
+        "tgl_masuk" => $this->input->post('tgl_masuk'),
+        "tgl_kontrak" => $this->input->post('tgl_kontrak'),
     );
-    $this->db->where('id_kriteria', $this->input->post('id_kriteria'));
-    $this->db->update('tb_kriteria', $data);
+    $this->db->where('id_karyawan', $this->input->post('id_karyawan'));
+    $this->db->update('tb_karyawan_kontrak', $data);
     if($this->db->error()['message'] != ""){
       $output = array("status" => "error", "message" => $this->db->error()['message']);
       echo json_encode($output);
@@ -121,8 +129,8 @@ class Karyawan extends CI_Controller {
   }
 
   public function deleteData(){
-    $this->db->where('id_kriteria', $this->input->post('id_kriteria'));
-    $this->db->delete('tb_kriteria');
+    $this->db->where('id_karyawan', $this->input->post('id_karyawan'));
+    $this->db->delete('tb_karyawan_kontrak');
 
     $output = array("status" => "success", "message" => "Data Berhasil di Hapus");
     echo json_encode($output);

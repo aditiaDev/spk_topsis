@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Kriteria extends CI_Controller {
+class Kontrak extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
@@ -13,30 +13,21 @@ class Kriteria extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('template/header');
-    $this->load->view('template/topmenu');
-    $this->load->view('pages/kriteria');
-    $this->load->view('template/footer');
+        $this->load->view('template/topmenu');
+        $this->load->view('pages/kontrak');
+        $this->load->view('template/footer');
 	}
 
   public function getAllData(){
-    // $this->db->from('tb_kriteria');
-    // $this->db->order_by('id_kriteria', 'asc');
-
-    $data['data'] = $this->db->query("
-    SELECT 
-      A.id_kriteria,
-      A.nm_kriteria,
-      A.jenis_kriteria,
-      A.bobot_kriteria,
-      B.keterangan 
-    FROM tb_kriteria AS A 
-    LEFT JOIN tb_bobot AS B ON A.bobot_kriteria = B.nilai_bobot")->result();
+    $this->db->from('tb_batas_kontrak');
+    $this->db->order_by('id_batas_kontrak', 'asc');
+    $data['data'] = $this->db->get()->result();
     echo json_encode($data);
   }
 
   public function generateId(){
-    $unik = 'K';
-    $kode = $this->db->query("SELECT MAX(id_kriteria) LAST_NO FROM tb_kriteria WHERE id_kriteria LIKE '".$unik."%'")->row()->LAST_NO;
+    $unik = 'B';
+    $kode = $this->db->query("SELECT MAX(id_batas_kontrak) LAST_NO FROM tb_batas_kontrak WHERE id_batas_kontrak LIKE '".$unik."%'")->row()->LAST_NO;
     // mengambil angka dari kode barang terbesar, menggunakan fungsi substr
     // dan diubah ke integer dengan (int)
     $urutan = (int) substr($kode, 1, 5);
@@ -56,10 +47,7 @@ class Kriteria extends CI_Controller {
   public function saveData(){
     
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('nm_kriteria', 'nm_kriteria', 'required|is_unique[tb_kriteria.nm_kriteria]');
-
-    $this->form_validation->set_rules('bobot_kriteria', 'bobot_kriteria', 'required|numeric');
-    $this->form_validation->set_rules('jenis_kriteria', 'jenis_kriteria', 'required');
+    $this->form_validation->set_rules('nilai_batas', 'Nilai Batas', 'required|numeric');
 
     if($this->form_validation->run() == FALSE){
       // echo validation_errors();
@@ -71,12 +59,10 @@ class Kriteria extends CI_Controller {
     $id = $this->generateId();
     
     $data = array(
-              "id_kriteria" => $id,
-              "nm_kriteria" => $this->input->post('nm_kriteria'),
-              "bobot_kriteria" => $this->input->post('bobot_kriteria'),
-              "jenis_kriteria" => $this->input->post('jenis_kriteria'),
+              "id_batas_kontrak" => $id,
+              "nilai_batas" => $this->input->post('nilai_batas'),
             );
-    $this->db->insert('tb_kriteria', $data);
+    $this->db->insert('tb_batas_kontrak', $data);
     $output = array("status" => "success", "message" => "Data Berhasil Disimpan");
     echo json_encode($output);
 
@@ -85,10 +71,7 @@ class Kriteria extends CI_Controller {
   public function updateData(){
 
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('id_kriteria', 'id_kriteria', 'required');
-    $this->form_validation->set_rules('nm_kriteria', 'nm_kriteria', 'required');
-    $this->form_validation->set_rules('bobot_kriteria', 'bobot_kriteria', 'required|numeric');
-    $this->form_validation->set_rules('jenis_kriteria', 'jenis_kriteria', 'required');
+    $this->form_validation->set_rules('nilai_batas', 'Nilai Batas', 'required|numeric');
 
     if($this->form_validation->run() == FALSE){
       // echo validation_errors();
@@ -98,12 +81,10 @@ class Kriteria extends CI_Controller {
     }
 
     $data = array(
-      "nm_kriteria" => $this->input->post('nm_kriteria'),
-      "bobot_kriteria" => $this->input->post('bobot_kriteria'),
-      "jenis_kriteria" => $this->input->post('jenis_kriteria'),
+        "nilai_batas" => $this->input->post('nilai_batas'),
     );
-    $this->db->where('id_kriteria', $this->input->post('id_kriteria'));
-    $this->db->update('tb_kriteria', $data);
+    $this->db->where('id_batas_kontrak', $this->input->post('id_batas_kontrak'));
+    $this->db->update('tb_batas_kontrak', $data);
     if($this->db->error()['message'] != ""){
       $output = array("status" => "error", "message" => $this->db->error()['message']);
       echo json_encode($output);
@@ -114,8 +95,8 @@ class Kriteria extends CI_Controller {
   }
 
   public function deleteData(){
-    $this->db->where('id_kriteria', $this->input->post('id_kriteria'));
-    $this->db->delete('tb_kriteria');
+    $this->db->where('id_batas_kontrak', $this->input->post('id_batas_kontrak'));
+    $this->db->delete('tb_batas_kontrak');
 
     $output = array("status" => "success", "message" => "Data Berhasil di Hapus");
     echo json_encode($output);

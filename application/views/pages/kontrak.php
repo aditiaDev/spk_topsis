@@ -2,27 +2,21 @@
 <!-- BEGIN: Content -->
 <div class="content">
     <h2 class="intro-y text-lg font-medium mt-10">
-        Data Kriteria
+        Data Batas Kontrak
     </h2>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <!-- BEGIN: Users Layout -->
-        <div class="intro-y col-span-8">
+        <div class="intro-y col-span-4">
             <div class="box">
               <div class="p-5">
                 <table id="tb_data" class="cell-border compact stripe hover">
                     <thead class="bg-gray-50">
                       <tr>
                         <th class="p-8 text-xs text-gray-500">
-                          ID Kriteria
+                          ID
                         </th>
                         <th class="p-8 text-xs text-gray-500">
-                          Nama Kriteria
-                        </th>
-                        <th class="p-8 text-xs text-gray-500">
-                          Bobot
-                        </th>
-                        <th class="p-8 text-xs text-gray-500">
-                          Jenis Kriteria
+                          Nilai Batas
                         </th>
                         <th class="p-8 text-xs text-gray-500" style="width: 100px;">
                           Action
@@ -44,35 +38,9 @@
               <form id="FRM_DATA" method="post">
                 <div>
                   <label for="regular-form-1" class="inline-block mb-2">
-                      Nama Kriteria
+                      Nilai Batas
                   </label>
-                  <input type="text" name="nm_kriteria" class="form-control rounded-full" />
-                </div>
-                <div class="mt-3">
-                  <label for="regular-form-1" class="inline-block mb-2">
-                    Bobot Kriteria
-                  </label>
-                  <select name="bobot_kriteria" class="form-control rounded-full" style="height: 40px;padding-left: 10px;">
-                    <?php
-                      $data = $this->db->query("
-                      SELECT 
-                        nilai_bobot,
-                        keterangan 
-                      FROM tb_bobot ORDER BY nilai_bobot")->result_array();
-                      foreach($data as $row){
-                        echo "<option value='".$row['nilai_bobot']."'>".$row['keterangan']."</option>";
-                      }
-                    ?>
-                  </select>
-                </div>
-                <div class="mt-3">
-                  <label for="regular-form-1" class="inline-block mb-2">
-                    Jenis Kriteria
-                  </label>
-                  <select name="jenis_kriteria" class="form-control rounded-full" style="height: 40px;padding-left: 10px;">
-                    <option value="BENEFIT">BENEFIT</option>
-                    <option value="COST">COST</option>
-                  </select>
+                  <input type="text" name="nilai_batas" class="form-control rounded-full" />
                 </div>
                 <div class="mt-5 text-right">
                   <button class="btn bg-secondary rounded-full" id="BTN_BATAL">Batal</button>
@@ -102,10 +70,10 @@
           event.preventDefault();
           var formData = $("#FRM_DATA").serialize();
           if(save_method == 'save') {
-              urlPost = "<?php echo site_url('kriteria/saveData') ?>";
+              urlPost = "<?php echo site_url('kontrak/saveData') ?>";
           }else{
-              urlPost = "<?php echo site_url('kriteria/updateData') ?>";
-              formData+="&id_kriteria="+id_data
+              urlPost = "<?php echo site_url('kontrak/updateData') ?>";
+              formData+="&id_batas_kontrak="+id_data
           }
 
           ACTION(urlPost, formData)
@@ -119,6 +87,8 @@
           $("#judul_entry").text('Tambah Data')
           save_method = 'save'
         })
+
+        
     });
 
     function REFRESH_DATA(){
@@ -129,23 +99,16 @@
           "autoWidth": false,
           "responsive": true,
           "ajax": {
-              "url": "<?php echo site_url('kriteria/getAllData') ?>",
+              "url": "<?php echo site_url('kontrak/getAllData') ?>",
               "type": "POST",
           },
           "columns": [
-              { "data": "id_kriteria", className: "text-center" },
-              { "data": "nm_kriteria"},
-              // { "data": "bobot_kriteria", className: "text-right"},
-              { "data": null, 
-                "render" : function(data){
-                  return data.bobot_kriteria+" - "+data.keterangan
-                },
-              },
-              { "data": "jenis_kriteria", className: "text-center"},
+              { "data": "id_batas_kontrak", className: "text-center" },
+              { "data": "nilai_batas", className: "text-right" },
               { "data": null, 
                 "render" : function(data){
                   return "<button class='btn btn-sm btn-warning' title='Edit Data' onclick='editData("+JSON.stringify(data)+");'>Edit </button> "+
-                    "<button class='btn btn-sm btn-danger' title='Hapus Data' onclick='deleteData(\""+data.id_kriteria+"\");'>Hapus </button>"
+                    "<button class='btn btn-sm btn-danger' title='Hapus Data' onclick='deleteData(\""+data.id_batas_kontrak+"\");'>Hapus </button>"
                 },
                 className: "text-center"
               },
@@ -183,19 +146,18 @@
     function editData(data, index){
       console.log(data)
       save_method = "edit"
-      id_data = data.id_kriteria;
+      id_data = data.id_batas_kontrak;
       $("#judul_entry").text('Edit Data')
-      $("[name='nm_kriteria']").val(data.nm_kriteria)
-      $("[name='bobot_kriteria']").val(data.bobot_kriteria)
-      $("[name='jenis_kriteria']").val(data.jenis_kriteria)
+      $("[name='nilai_batas']").val(data.nilai_batas)
     }
 
     function deleteData(id){
       if(!confirm('Delete this data?')) return
 
-      urlPost = "<?php echo site_url('kriteria/deleteData') ?>";
-      formData = "id_kriteria="+id
+      urlPost = "<?php echo site_url('kontrak/deleteData') ?>";
+      formData = "id_batas_kontrak="+id
       ACTION(urlPost, formData)
     }
+
 
 </script>

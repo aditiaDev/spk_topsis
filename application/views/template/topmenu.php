@@ -37,6 +37,12 @@
                         <div class="top-menu__title"> Data Karyawan Kontrak </div>
                     </a>
                 </li>
+                <li>
+                    <a href="<?php echo base_url("master/kontrak")?>" class="top-menu">
+                        <div class="top-menu__icon"> <i data-feather="layers"></i> </div>
+                        <div class="top-menu__title"> Data Batas Kontrak </div>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>

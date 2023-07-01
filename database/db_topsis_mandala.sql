@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Jun 2023 pada 16.04
--- Versi server: 10.4.10-MariaDB
--- Versi PHP: 7.3.12
+-- Generation Time: Jul 01, 2023 at 05:58 AM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.3.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_batas_kontrak`
+-- Table structure for table `tb_batas_kontrak`
 --
 
 CREATE TABLE `tb_batas_kontrak` (
@@ -33,10 +32,39 @@ CREATE TABLE `tb_batas_kontrak` (
   `nilai_batas` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tb_batas_kontrak`
+--
+
+INSERT INTO `tb_batas_kontrak` (`id_batas_kontrak`, `nilai_batas`) VALUES
+('B00001', 5);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_hasil_penilaian`
+-- Table structure for table `tb_bobot`
+--
+
+CREATE TABLE `tb_bobot` (
+  `nilai_bobot` int(11) NOT NULL,
+  `keterangan` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_bobot`
+--
+
+INSERT INTO `tb_bobot` (`nilai_bobot`, `keterangan`) VALUES
+(1, 'Sangat Rendah'),
+(2, 'Rendah'),
+(3, 'Cukup'),
+(4, 'Tinggi'),
+(5, 'Sangat Tinggi');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_hasil_penilaian`
 --
 
 CREATE TABLE `tb_hasil_penilaian` (
@@ -50,7 +78,7 @@ CREATE TABLE `tb_hasil_penilaian` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_karyawan_kontrak`
+-- Table structure for table `tb_karyawan_kontrak`
 --
 
 CREATE TABLE `tb_karyawan_kontrak` (
@@ -65,41 +93,41 @@ CREATE TABLE `tb_karyawan_kontrak` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_karyawan_kontrak`
+-- Dumping data for table `tb_karyawan_kontrak`
 --
 
 INSERT INTO `tb_karyawan_kontrak` (`id_karyawan`, `id_unit`, `nm_karyawan`, `alamat_karyawan`, `no_karyawan`, `jenis_kelamin`, `tgl_masuk`, `tgl_kontrak`) VALUES
-('T2300001', 'A00001', 'Karyawan 1', 'Kudus', '085324786789', 'LAKI-LAKI', '2020-11-18', '2020-11-18'),
+('T2300001', 'A00001', 'Karyawan 1', 'Kudus', '085324786789', 'LAKI-LAKI', '2020-11-18', '2020-11-01'),
 ('T2323001', 'A00001', 'Karyawan 2', 'Jepara', '089879879823', 'PEREMPUAN', '2023-06-01', '2023-06-01');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_kriteria`
+-- Table structure for table `tb_kriteria`
 --
 
 CREATE TABLE `tb_kriteria` (
   `id_kriteria` varchar(15) NOT NULL,
-  `nm_kriteria` varchar(25) DEFAULT NULL,
+  `nm_kriteria` varchar(50) DEFAULT NULL,
   `bobot_kriteria` int(11) DEFAULT NULL,
-  `jenis_kriteria` enum('MAX','MIN') DEFAULT NULL
+  `jenis_kriteria` enum('BENEFIT','COST') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_kriteria`
+-- Dumping data for table `tb_kriteria`
 --
 
 INSERT INTO `tb_kriteria` (`id_kriteria`, `nm_kriteria`, `bobot_kriteria`, `jenis_kriteria`) VALUES
-('K00001', 'Attitude', 30, 'MAX'),
-('K00002', 'Nilai Kehadiran', 25, 'MAX'),
-('K00003', 'Kemampuan', 25, 'MAX'),
-('K00004', 'Aktif/ Loyalitas', 15, 'MAX'),
-('K00005', 'Umur', 10, 'MIN');
+('K00001', 'Lokasi Jarak Rumah (Km)', 4, 'COST'),
+('K00002', 'Pengalaman Kerja Sebelumn', 5, 'BENEFIT'),
+('K00003', 'Total Izin Selama Kerja (Hari)', 4, 'COST'),
+('K00004', 'Nilai Akhir Sekolah', 3, 'BENEFIT'),
+('K00005', 'Penilaian Kinerja (Skor: 1-10)', 3, 'BENEFIT');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_penilaian_karyawan`
+-- Table structure for table `tb_penilaian_karyawan`
 --
 
 CREATE TABLE `tb_penilaian_karyawan` (
@@ -112,7 +140,7 @@ CREATE TABLE `tb_penilaian_karyawan` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_unit`
+-- Table structure for table `tb_unit`
 --
 
 CREATE TABLE `tb_unit` (
@@ -123,7 +151,7 @@ CREATE TABLE `tb_unit` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_unit`
+-- Dumping data for table `tb_unit`
 --
 
 INSERT INTO `tb_unit` (`id_unit`, `id_user`, `nm_unit`, `kepala_unit`) VALUES
@@ -133,7 +161,7 @@ INSERT INTO `tb_unit` (`id_unit`, `id_user`, `nm_unit`, `kepala_unit`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_user`
+-- Table structure for table `tb_user`
 --
 
 CREATE TABLE `tb_user` (
@@ -145,7 +173,7 @@ CREATE TABLE `tb_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_user`
+-- Dumping data for table `tb_user`
 --
 
 INSERT INTO `tb_user` (`id_user`, `username`, `password`, `nm_pengguna`, `level`) VALUES
@@ -161,43 +189,43 @@ INSERT INTO `tb_user` (`id_user`, `username`, `password`, `nm_pengguna`, `level`
 --
 
 --
--- Indeks untuk tabel `tb_batas_kontrak`
+-- Indexes for table `tb_batas_kontrak`
 --
 ALTER TABLE `tb_batas_kontrak`
   ADD PRIMARY KEY (`id_batas_kontrak`);
 
 --
--- Indeks untuk tabel `tb_hasil_penilaian`
+-- Indexes for table `tb_hasil_penilaian`
 --
 ALTER TABLE `tb_hasil_penilaian`
   ADD PRIMARY KEY (`id_hasil`);
 
 --
--- Indeks untuk tabel `tb_karyawan_kontrak`
+-- Indexes for table `tb_karyawan_kontrak`
 --
 ALTER TABLE `tb_karyawan_kontrak`
   ADD PRIMARY KEY (`id_karyawan`);
 
 --
--- Indeks untuk tabel `tb_kriteria`
+-- Indexes for table `tb_kriteria`
 --
 ALTER TABLE `tb_kriteria`
   ADD PRIMARY KEY (`id_kriteria`);
 
 --
--- Indeks untuk tabel `tb_penilaian_karyawan`
+-- Indexes for table `tb_penilaian_karyawan`
 --
 ALTER TABLE `tb_penilaian_karyawan`
   ADD PRIMARY KEY (`id_penilaian_karyawan`);
 
 --
--- Indeks untuk tabel `tb_unit`
+-- Indexes for table `tb_unit`
 --
 ALTER TABLE `tb_unit`
   ADD PRIMARY KEY (`id_unit`);
 
 --
--- Indeks untuk tabel `tb_user`
+-- Indexes for table `tb_user`
 --
 ALTER TABLE `tb_user`
   ADD PRIMARY KEY (`id_user`);

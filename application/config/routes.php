@@ -57,3 +57,4 @@ $route['master/user'] = 'user';
 $route['master/unit'] = 'unit';
 $route['master/kriteria'] = 'kriteria';
 $route['master/karyawan'] = 'karyawan';
+$route['master/kontrak'] = 'kontrak';

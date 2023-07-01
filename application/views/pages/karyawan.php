@@ -257,11 +257,19 @@
     function editData(data, index){
       console.log(data)
       save_method = "edit"
-      id_data = data.id_kriteria;
-      $("#judul_entry").text('Edit Data')
-      $("[name='nm_kriteria']").val(data.nm_kriteria)
-      $("[name='bobot_kriteria']").val(data.bobot_kriteria)
-      $("[name='jenis_kriteria']").val(data.jenis_kriteria)
+      $("#FRM_DATA")[0].reset()
+      $("#modal_add .modal-title").text('Edit Data')
+      
+      id_data = data.id_karyawan;
+      $("[name='id_unit']").val(data.id_unit).trigger('change')
+      $("[name='nm_karyawan']").val(data.nm_karyawan)
+      $("[name='jenis_kelamin']").val(data.jenis_kelamin)
+      $("[name='no_karyawan']").val(data.no_karyawan)
+      $("[name='alamat_karyawan']").val(data.alamat_karyawan)
+      $("[name='tgl_masuk']").val(data.tgl_masuk)
+      $("[name='tgl_kontrak']").val(data.tgl_kontrak)
+
+      modalShow('modal_add')
     }
 
     function deleteData(id){
