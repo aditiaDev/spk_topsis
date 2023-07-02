@@ -39,7 +39,7 @@ class Karyawan extends CI_Controller {
     $kode = $this->db->query("SELECT MAX(id_karyawan) LAST_NO FROM tb_karyawan_kontrak WHERE id_karyawan LIKE '".$unik."%'")->row()->LAST_NO;
     // mengambil angka dari kode barang terbesar, menggunakan fungsi substr
     // dan diubah ke integer dengan (int)
-    $urutan = (int) substr($kode, 1, 5);
+    $urutan = (int) substr($kode, 3, 5);
     
     // bilangan yang diambil ini ditambah 1 untuk menentukan nomor urut berikutnya
     $urutan++;

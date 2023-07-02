@@ -45,6 +45,12 @@
                 </li>
             </ul>
         </li>
+        <li>
+            <a href="<?php echo base_url("penilaian")?>" class="top-menu <?= ($this->uri->segment(1) == 'penilaian') ? 'top-menu--active' : '' ?>">
+                <div class="top-menu__icon"> <i data-feather="edit"></i> </div>
+                <div class="top-menu__title"> Data Penilaian  </div>
+            </a>
+        </li>
     </ul>
 </nav>
 <!-- END: Top Menu -->

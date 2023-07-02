@@ -13,7 +13,7 @@
         <script src="<?php echo base_url('/assets/datatables/jquery.dataTables.min.js'); ?>"></script>
         <script src="<?php echo base_url('/assets/toastr/toastr.min.js'); ?>"></script>
         <script src="<?php echo base_url('/assets/select2/select2.min.js'); ?>"></script>
-
+        <script src="<?php echo base_url('/assets/tabs/alpine.min.js'); ?>" ></script>
 
         <script>
             function test(){
