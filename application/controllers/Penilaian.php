@@ -344,14 +344,41 @@ class Penilaian extends CI_Controller {
 
   public function getTablePreferensi(){
     $getData = $this->getPreferensi();
+    
+
+    $array = $getData['preferensi'];
+    $i=1;
+    foreach($getData['preferensi'] as $key=>$values)
+    {
+        $max = max($array);
+        // echo "<br>".$max." rank is ". $i."<br>";
+        $keys = array_search($max, $array);    
+        $getData['rank'][$keys] = $i;
+        unset($array[$keys]);
+        if(sizeof($array) >0)
+        if(!in_array($max,$array))
+        $i++;
+
+    }
 
     $no=0;
     $table="";
 
+    $nilai_batas = $this->db->query("select nilai_batas from tb_batas_kontrak order by id_batas_kontrak desc limit 1")->row()->nilai_batas;
+
     foreach($getData['data'] as $row=>$val){
 
-        $preferensi = $getData['preferensi'][$row];
-        $td_preferensi = "<td align='center'>".$preferensi."</td>";
+      $preferensi = $getData['preferensi'][$row];
+      $td_preferensi = "<td align='center'>".$preferensi."</td>";
+
+      $rank = $getData['rank'][$row];
+      $td_rank = "<td align='center'>".$rank."</td>";
+
+      if($rank > $nilai_batas){
+        $ket_lulus = 'Dirumahkan';
+      }else{
+        $ket_lulus = 'Lanjut Kerja';
+      }
 
 
       $td_nama = "<td>".$getData['data'][$row][$getData['nama'][$no]]."</td>";
@@ -361,13 +388,16 @@ class Penilaian extends CI_Controller {
                 <td>".$row."</td>
                 ".$td_nama."
                 ".$td_preferensi."
+                ".$td_rank."
+                <td>".$ket_lulus."</td>
               </tr>";
     }
 
     echo $table;
+
     // echo "<pre>";
     // print_r($getData);
-    // echo "</pre>";
+    // echo "</pre><br>";
   }
 
 }

@@ -246,7 +246,6 @@ $jml_kriteria = count($data);
 </div>
 <!-- END: Content -->
 
-
 <script src="<?php echo base_url('/assets/jquery/jquery.min.js'); ?>"></script>
 <script>
   var save_method = 'save';
