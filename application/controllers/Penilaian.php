@@ -110,10 +110,6 @@ class Penilaian extends CI_Controller {
                 <td>".$row."</td>
                 ".$td_nama."
                 ".$td_kriteria."
-                <td>
-                <button class='btn btn-sm btn-warning' title='Edit Data' >Edit </button>
-                <button class='btn btn-sm btn-danger' title='Edit Data' >Hapus </button>
-                </td>
               </tr>";
     }
 

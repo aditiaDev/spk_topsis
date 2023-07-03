@@ -1,4 +1,9 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/datatables/jquery.dataTables.min.css'); ?>">
+<style>
+  table thead th, table thead td, table tfoot th, table tfoot td, table tbody th, table tbody td {
+    padding: 4px!important;
+  }
+</style>
 <!-- BEGIN: Content -->
 <div class="content">
     <h2 class="intro-y text-lg font-medium mt-10">
@@ -9,7 +14,7 @@
         <div class="intro-y col-span-8">
             <div class="box">
               <div class="p-5">
-                <table id="tb_data" class="cell-border compact stripe hover">
+                <table id="tb_data" class="table table-striped table-bordered table-hover" style="font-size: 12px;">
                     <thead class="bg-gray-50">
                       <tr>
                         <th class="p-8 text-xs text-gray-500">

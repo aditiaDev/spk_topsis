@@ -59,12 +59,12 @@ $jml_kriteria = count($data);
               <div class="intro-y pr-1">
                 <div class="box p-2">
                   <div class="chat__tabs nav nav-tabs justify-center" role="tablist">
-                    <a id="chats-tab" href="#" x-on:click="activeTab = 1" :class="activeTab === 1 ? activeClass : inactiveClass">Tabel Matrix (x<sub>ij</sub>)</a>
-                    <a id="chats-tab" href="#" x-on:click="activeTab = 2" :class="activeTab === 2 ? activeClass : inactiveClass">Pembagi</a>
-                    <a id="chats-tab" href="#" x-on:click="activeTab = 3" :class="activeTab === 3 ? activeClass : inactiveClass">Tabel Ternomalisasi</a>
-                    <a id="chats-tab" href="#" x-on:click="activeTab = 4" :class="activeTab === 4 ? activeClass : inactiveClass">Tabel Terbobot</a>
-                    <a id="chats-tab" href="#" x-on:click="activeTab = 5" :class="activeTab === 5 ? activeClass : inactiveClass">Solusi Ideal</a>
-                    <a id="chats-tab" href="#" x-on:click="activeTab = 6" :class="activeTab === 6 ? activeClass : inactiveClass">Nilai Preverensi</a>                    
+                    <a id="chats-tab" href="javascript:;" x-on:click="activeTab = 1" :class="activeTab === 1 ? activeClass : inactiveClass">Tabel Matrix (x<sub>ij</sub>)</a>
+                    <a id="chats-tab" href="javascript:;" x-on:click="activeTab = 2" :class="activeTab === 2 ? activeClass : inactiveClass">Pembagi</a>
+                    <a id="chats-tab" href="javascript:;" x-on:click="activeTab = 3" :class="activeTab === 3 ? activeClass : inactiveClass">Tabel Ternomalisasi</a>
+                    <a id="chats-tab" href="javascript:;" x-on:click="activeTab = 4" :class="activeTab === 4 ? activeClass : inactiveClass">Tabel Terbobot</a>
+                    <a id="chats-tab" href="javascript:;" x-on:click="activeTab = 5" :class="activeTab === 5 ? activeClass : inactiveClass">Solusi Ideal</a>
+                    <a id="chats-tab" href="javascript:;" x-on:click="activeTab = 6" :class="activeTab === 6 ? activeClass : inactiveClass">Nilai Preverensi</a>                    
                   </div>
                 </div>
               </div>
@@ -83,7 +83,6 @@ $jml_kriteria = count($data);
                             <th rowspan="3">Alternatif</th>
                             <th rowspan="3">Nama Karyawan</th>
                             <th colspan="<?= $jml_kriteria ?>" style="text-align: center;">Kriteria</th>
-                            <th rowspan="3" style="width: 110px;text-align: center;">Action</th>
                         </tr>
                         <tr>
                           <?php
