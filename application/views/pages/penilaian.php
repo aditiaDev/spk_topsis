@@ -227,7 +227,7 @@ $jml_kriteria = count($data);
                             <th>Nama Karyawan</th>
                             <th style="text-align: center;">Nilai Preferensi (V<sub>i</sub>)</th>
                             <th>Rank</th>
-                            <th>Hasil keputusan</th>
+                            <!-- <th>Hasil keputusan</th> -->
                         </tr>
                       </thead>
                       <tbody class="bg-white">
@@ -291,13 +291,13 @@ $jml_kriteria = count($data);
         success: function(data){
           // console.log(data)
           $("#tb_matrix tbody").html(data)
-          // $('#tb_matrix').DataTable().destroy();
-          // $("#tb_matrix").DataTable({
-          //   "order": [[ 0, "asc" ]],
-          //   "pageLength": 25,
-          //   "autoWidth": false,
-          //   "responsive": true,
-          // })
+          $('#tb_matrix').DataTable().destroy();
+          $("#tb_matrix").DataTable({
+            "order": [[ 0, "asc" ]],
+            "pageLength": 25,
+            "autoWidth": false,
+            "responsive": true,
+          })
           
         }
       })
@@ -359,6 +359,13 @@ $jml_kriteria = count($data);
         success: function(data){
           // console.log(data)
           $("#tb_preferensi tbody").html(data)
+          $('#tb_preferensi').DataTable().destroy();
+          $("#tb_preferensi").DataTable({
+            "order": [[ 0, "asc" ]],
+            "pageLength": 25,
+            "autoWidth": false,
+            "responsive": true,
+          })
         }
       })
 

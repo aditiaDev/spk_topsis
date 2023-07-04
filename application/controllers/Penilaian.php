@@ -360,7 +360,7 @@ class Penilaian extends CI_Controller {
     $no=0;
     $table="";
 
-    $nilai_batas = $this->db->query("select nilai_batas from tb_batas_kontrak order by id_batas_kontrak desc limit 1")->row()->nilai_batas;
+    // $nilai_batas = $this->db->query("select nilai_batas from tb_batas_kontrak order by id_batas_kontrak desc limit 1")->row()->nilai_batas;
 
     foreach($getData['data'] as $row=>$val){
 
@@ -370,11 +370,11 @@ class Penilaian extends CI_Controller {
       $rank = $getData['rank'][$row];
       $td_rank = "<td align='center'>".$rank."</td>";
 
-      if($rank > $nilai_batas){
-        $ket_lulus = 'Dirumahkan';
-      }else{
-        $ket_lulus = 'Lanjut Kerja';
-      }
+      // if($rank > $nilai_batas){
+      //   $ket_lulus = 'Dirumahkan';
+      // }else{
+      //   $ket_lulus = 'Lanjut Kerja';
+      // }
 
 
       $td_nama = "<td>".$getData['data'][$row][$getData['nama'][$no]]."</td>";
@@ -385,7 +385,6 @@ class Penilaian extends CI_Controller {
                 ".$td_nama."
                 ".$td_preferensi."
                 ".$td_rank."
-                <td>".$ket_lulus."</td>
               </tr>";
     }
 
@@ -394,6 +393,32 @@ class Penilaian extends CI_Controller {
     // echo "<pre>";
     // print_r($getData);
     // echo "</pre><br>";
+  }
+
+  public function hasil()
+	{
+		$this->load->view('template/header');
+    $this->load->view('template/topmenu');
+    $this->load->view('pages/hasil');
+    $this->load->view('template/footer');
+	}
+
+  public function getHasil(){
+    $data['data'] = $this->db->query("
+      SELECT A.rank, A.id_hasil, A.id_karyawan, B.nm_karyawan, concat(C.nilai_batas, ' Orang') as nilai_batas, 
+      A.tgl_penilaian, A.keterangan, A.nilai 
+      FROM tb_hasil_penilaian A
+      LEFT JOIN tb_karyawan_kontrak B ON A.id_karyawan = B.id_karyawan
+      LEFT JOIN tb_batas_kontrak C ON A.id_batas_kontrak = C.id_batas_kontrak
+      ORDER BY rank
+    ")->result();
+    echo json_encode($data);
+  }
+
+  public function saveData(){
+    $getData = $this->getPreferensi();
+
+    
   }
 
 }

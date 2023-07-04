@@ -44,39 +44,66 @@
             </div>
         </div>
         <div class="intro-y col-span-4">
-          <div class="box">
-            <div class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row">
-              <h2 class="mr-auto text-base font-medium" id="judul_entry">Tambah Data</h2>
+          <div>
+            <div class="intro-y col-span-12">
+              <div class="box">
+                <div class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row">
+                  <h2 class="mr-auto text-base font-medium" id="judul_entry">Tambah Data</h2>
+                </div>
+                <div class="p-5">
+                  <form id="FRM_DATA" method="post">
+                    <div>
+                      <label for="regular-form-1" class="inline-block mb-2">
+                          ID Karyawan
+                      </label>
+                      <select name="id_karyawan" class="form-control select2" style="width:100%" data-placeholder="Pilih Karyawan">
+                      </select>
+                    </div>
+
+                    <div class="mt-3">
+                      <label for="regular-form-1" class="inline-block mb-2">
+                          ID Kriteria
+                      </label>
+                      <select name="id_kriteria" class="form-control"  style="height: 40px;padding-left: 10px;" >
+                      </select>
+                    </div>
+
+                    <div class="mt-3">
+                      <label for="regular-form-1" class="inline-block mb-2">
+                          Nilai
+                      </label>
+                      <input type="text" name="nilai_kriteria" class="form-control rounded-full" />
+                    </div>
+                    <div class="mt-5 text-right">
+                      <button class="btn bg-secondary rounded-full" id="BTN_BATAL">Batal</button>
+                      <button class="btn btn-primary rounded-full" id="BTN_SAVE">Simpan</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
-            <div class="p-5">
-              <form id="FRM_DATA" method="post">
-                <div>
-                  <label for="regular-form-1" class="inline-block mb-2">
-                      ID Karyawan
-                  </label>
-                  <select name="id_karyawan" class="form-control select2" style="width:100%" data-placeholder="Pilih Karyawan">
-                  </select>
+          </div>
+          <div class="mt-3">
+            <div class="intro-y col-span-12">
+              <div class="box">
+                <div class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row">
+                  <h2 class="mr-auto text-base font-medium" >Proses Penilaian</h2>
                 </div>
-
-                <div class="mt-3">
-                  <label for="regular-form-1" class="inline-block mb-2">
-                      ID Kriteria
-                  </label>
-                  <select name="id_kriteria" class="form-control"  style="height: 40px;padding-left: 10px;" data-placeholder="Pilih Kriteria">
-                  </select>
+                <div class="p-5">
+                  <form id="FRM_NILAI" method="post">
+                    <div>
+                      <label for="regular-form-1" class="inline-block mb-2">
+                        Batas Rekrutmen Karyawan
+                      </label>
+                      <select name="id_batas_kontrak" class="form-control" style="height: 40px;padding-left: 10px;" >
+                      </select>
+                    </div>
+                    <div class="mt-5 text-right">
+                      <button class="btn btn-success rounded-full" style="width: 100%;" id="BTN_NILAI">Proses Penilaian</button>
+                    </div>
+                  </form>
                 </div>
-
-                <div class="mt-3">
-                  <label for="regular-form-1" class="inline-block mb-2">
-                      Nilai
-                  </label>
-                  <input type="text" name="nilai_kriteria" class="form-control rounded-full" />
-                </div>
-                <div class="mt-5 text-right">
-                  <button class="btn bg-secondary rounded-full" id="BTN_BATAL">Batal</button>
-                  <button class="btn btn-primary rounded-full" id="BTN_SAVE">Simpan</button>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -119,6 +146,14 @@
           $("[name='id_user']").val('').trigger('change')
           $("#judul_entry").text('Tambah Data')
           save_method = 'save'
+        })
+
+        $("#BTN_NILAI").click(function(){
+          event.preventDefault();
+          var formData = $("#FRM_NILAI").serialize();
+          urlPost = "<?php echo site_url('penilaian/saveData') ?>";
+
+          ACTION(urlPost, formData)
         })
 
     });
