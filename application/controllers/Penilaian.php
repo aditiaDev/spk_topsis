@@ -332,16 +332,6 @@ class Penilaian extends CI_Controller {
       $getData['preferensi'][$row] = $nilai_preferensi;
     }
 
-    return $getData;
-    // echo "<pre>";
-    // print_r($getData);
-    // echo "</pre>";
-  }
-
-  public function getTablePreferensi(){
-    $getData = $this->getPreferensi();
-    
-
     $array = $getData['preferensi'];
     $i=1;
     foreach($getData['preferensi'] as $key=>$values)
@@ -356,6 +346,31 @@ class Penilaian extends CI_Controller {
         $i++;
 
     }
+
+    return $getData;
+    // echo "<pre>";
+    // print_r($getData);
+    // echo "</pre>";
+  }
+
+  public function getTablePreferensi(){
+    $getData = $this->getPreferensi();
+    
+
+    // $array = $getData['preferensi'];
+    // $i=1;
+    // foreach($getData['preferensi'] as $key=>$values)
+    // {
+    //     $max = max($array);
+    //     // echo "<br>".$max." rank is ". $i."<br>";
+    //     $keys = array_search($max, $array);    
+    //     $getData['rank'][$keys] = $i;
+    //     unset($array[$keys]);
+    //     if(sizeof($array) >0)
+    //     if(!in_array($max,$array))
+    //     $i++;
+
+    // }
 
     $no=0;
     $table="";
@@ -415,10 +430,85 @@ class Penilaian extends CI_Controller {
     echo json_encode($data);
   }
 
+  public function generateId(){
+    $unik = 'H'.date('ym');
+    $kode = $this->db->query("SELECT MAX(id_hasil) LAST_NO FROM tb_hasil_penilaian WHERE id_hasil LIKE '".$unik."%'")->row()->LAST_NO;
+    // mengambil angka dari kode barang terbesar, menggunakan fungsi substr
+    // dan diubah ke integer dengan (int)
+    $urutan = (int) substr($kode, 5, 5);
+    
+    // bilangan yang diambil ini ditambah 1 untuk menentukan nomor urut berikutnya
+    $urutan++;
+    
+    // membentuk kode barang baru
+    // perintah sprintf("%03s", $urutan); berguna untuk membuat string menjadi 3 karakter
+    // misalnya perintah sprintf("%03s", 15); maka akan menghasilkan '015'
+    // angka yang diambil tadi digabungkan dengan kode huruf yang kita inginkan, misalnya BRG 
+    $huruf = $unik;
+    $kode = $huruf . sprintf("%05s", $urutan);
+    return $kode;
+  }
+
   public function saveData(){
+
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('id_batas_kontrak', 'id_batas_kontrak', 'required');
+
+    if($this->form_validation->run() == FALSE){
+      // echo validation_errors();
+      $output = array("status" => "error", "message" => validation_errors());
+      echo json_encode($output);
+      return false;
+    }
+
+    $this->db->query("DELETE FROM tb_hasil_penilaian");
+
+    $tgl_penilaian = date('Y-m-d');
+
     $getData = $this->getPreferensi();
 
+    $nilai_batas = $this->db->query("select nilai_batas from tb_batas_kontrak WHERE id_batas_kontrak='".$this->input->post('id_batas_kontrak')."'")->row()->nilai_batas;
+
+    $i=0;
+    foreach($getData['data'] as $row=>$val){
+
+      $rank = $getData['rank'][$row];
+      $nilai = $getData['preferensi'][$row];
+
+      $getData['hasil'][$i]['id_karyawan'] = $row;
+      $getData['hasil'][$i]['nilai'] = $nilai;
+      $getData['hasil'][$i]['rank'] = $rank;
+
+      
+
+      if($rank > $nilai_batas){
+        $ket_lulus = 'Dirumahkan';
+      }else{
+        $ket_lulus = 'Lanjut Kerja';
+      }
+
+      $id = $this->generateId();
     
+      $data = array(
+                "id_hasil" => $id,
+                "id_karyawan" => $row,
+                "id_batas_kontrak" => $this->input->post('id_batas_kontrak'),
+                "nilai" => $nilai,
+                "tgl_penilaian" => $tgl_penilaian,
+                "rank" => $rank,
+                "keterangan" => $ket_lulus,
+              );
+      $this->db->insert('tb_hasil_penilaian', $data);
+
+      $i++;
+    }
+
+    $output = array("status" => "success", "message" => "Data Berhasil Disimpan");
+    echo json_encode($output);
+
+    // echo "<pre>";
+    // print_r($getData);
+    // echo "</pre><br>";
   }
 
 }

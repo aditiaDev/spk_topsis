@@ -96,6 +96,13 @@
                         Batas Rekrutmen Karyawan
                       </label>
                       <select name="id_batas_kontrak" class="form-control" style="height: 40px;padding-left: 10px;" >
+                        <?php
+                          $data = $this->db->query("SELECT id_batas_kontrak, nilai_batas FROM tb_batas_kontrak ORDER BY nilai_batas")->result_array();
+                          foreach($data as $row){
+                            echo "<option value='".$row['id_batas_kontrak']."'>".$row['nilai_batas']."</option>";
+                          }
+
+                        ?>
                       </select>
                     </div>
                     <div class="mt-5 text-right">
@@ -153,7 +160,29 @@
           var formData = $("#FRM_NILAI").serialize();
           urlPost = "<?php echo site_url('penilaian/saveData') ?>";
 
-          ACTION(urlPost, formData)
+          $.ajax({
+            url: urlPost,
+            type: "POST",
+            data: formData,
+            dataType: "JSON",
+            beforeSend: function () {
+              $("#LOADER").show();
+            },
+            complete: function () {
+              $("#LOADER").hide();
+            },
+            success: function(data){
+              console.log(data)
+              if (data.status == "success") {
+                toastr.info(data.message)
+                window.location.href = "<?php echo site_url('hasil') ?>";
+              }else{
+                toastr.error(data.message)
+              }
+            }
+          })
+
+          
         })
 
     });
