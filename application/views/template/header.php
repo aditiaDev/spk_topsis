@@ -102,7 +102,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <hr class="dropdown-divider border-white/[0.08]">
                             </li>
                             <li>
-                                <a href="" class="dropdown-item hover:bg-white/5"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
+                                <a href="<?php echo base_url("Login/logout")?>" class="dropdown-item hover:bg-white/5"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
                             </li>
                         </ul>
                     </div>
