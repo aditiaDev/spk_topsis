@@ -7,6 +7,9 @@
                 <div class="top-menu__title"> Home  </div>
             </a>
         </li>
+        <?php
+          if($this->session->userdata('level') == "ADMIN" || $this->session->userdata('level') == "KEPALA UNIT"){
+        ?>
         <li>
             <a href="javascript:;" class="top-menu <?= ($this->uri->segment(1) == 'master') ? 'top-menu--active' : '' ?>">
                 <div class="top-menu__icon"> <i data-feather="box"></i> </div>
@@ -57,6 +60,9 @@
                 <div class="top-menu__title"> Data Penilaian  </div>
             </a>
         </li>
+        <?php
+        }
+        ?>
         <li>
             <a href="<?php echo base_url("hasil")?>" class="top-menu <?= ($this->uri->segment(1) == 'hasil') ? 'top-menu--active' : '' ?>">
                 <div class="top-menu__icon"> <i data-feather="list"></i> </div>

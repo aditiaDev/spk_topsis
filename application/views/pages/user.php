@@ -46,7 +46,7 @@
         <div class="intro-y col-span-4">
           <div class="box">
             <div class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row">
-              <h2 class="mr-auto text-base font-medium" id="judul_entry">Tambah Data</h2>
+              <h2 class="mr-auto text-base font-medium" id="judul_entry">Tambah Data </h2>
             </div>
             <div class="p-5">
               <form id="FRM_DATA" method="post">
@@ -100,6 +100,7 @@
   var id_user;
 
     $(document).ready(function () {
+        generateId()
         REFRESH_DATA()
 
         $("#BTN_SAVE").click(function(){
@@ -122,6 +123,8 @@
           $("#FRM_DATA")[0].reset()
           $("#judul_entry").text('Tambah Data')
           save_method = 'save'
+
+          generateId()
         })
     });
 
@@ -154,6 +157,19 @@
       )
     }
 
+    function generateId(){
+      $.ajax({
+        url: "<?php echo site_url('user/newUser') ?>",
+        type: "POST",
+        success: function(data){
+          console.log(data)
+          $("[name='nm_pengguna']").val(data)
+          $("[name='username']").val(data)
+          $("[name='password']").val(data)
+        }
+      })
+    }
+
     function ACTION(urlPost, formData){
       $.ajax({
           url: urlPost,
@@ -167,12 +183,12 @@
             $("#LOADER").hide();
           },
           success: function(data){
-            console.log(data)
+            
             if (data.status == "success") {
               toastr.info(data.message)
               REFRESH_DATA()
               $("#FRM_DATA")[0].reset()
-
+              generateId()
             }else{
               toastr.error(data.message)
             }

@@ -420,7 +420,7 @@ class Penilaian extends CI_Controller {
 
   public function getHasil(){
     $data['data'] = $this->db->query("
-      SELECT A.rank, A.id_hasil, A.id_karyawan, B.nm_karyawan, concat(C.nilai_batas, ' Orang') as nilai_batas, 
+      SELECT A.rank, A.id_hasil, A.id_karyawan, B.nm_karyawan, concat(C.kebutuhan_karyawan, ' Orang') as kebutuhan_karyawan, C.nilai_batas,
       A.tgl_penilaian, A.keterangan, A.nilai 
       FROM tb_hasil_penilaian A
       LEFT JOIN tb_karyawan_kontrak B ON A.id_karyawan = B.id_karyawan
@@ -467,6 +467,7 @@ class Penilaian extends CI_Controller {
 
     $getData = $this->getPreferensi();
 
+    $kebutuhan_karyawan = $this->db->query("select kebutuhan_karyawan from tb_batas_kontrak WHERE id_batas_kontrak='".$this->input->post('id_batas_kontrak')."'")->row()->kebutuhan_karyawan;
     $nilai_batas = $this->db->query("select nilai_batas from tb_batas_kontrak WHERE id_batas_kontrak='".$this->input->post('id_batas_kontrak')."'")->row()->nilai_batas;
 
     $i=0;
@@ -481,10 +482,10 @@ class Penilaian extends CI_Controller {
 
       
 
-      if($rank > $nilai_batas){
-        $ket_lulus = 'Dirumahkan';
-      }else{
+      if($rank <= $kebutuhan_karyawan AND $nilai >= $nilai_batas){
         $ket_lulus = 'Lanjut Kerja';
+      }else{
+        $ket_lulus = 'Dirumahkan';
       }
 
       $id = $this->generateId();

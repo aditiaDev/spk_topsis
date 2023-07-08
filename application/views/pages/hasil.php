@@ -36,6 +36,9 @@
                           Batas Rekrutmen
                         </th>
                         <th class="p-8 text-xs text-gray-500">
+                          Batas Nilai
+                        </th>
+                        <th class="p-8 text-xs text-gray-500">
                           Nilai
                         </th>
                         
@@ -50,7 +53,30 @@
               </div>
             </div>
         </div>
-
+        <div class="intro-y col-span-4">
+          <div class="box">
+            <div class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row">
+              <h2 class="mr-auto text-base font-medium">Cetak Laporan</h2>
+            </div>
+            <div class="p-5">
+              <form action="<?php echo base_url('Laporan/laporan_status') ?>" method="POST" target="_blank">
+                <div>
+                  <label for="regular-form-1" class="inline-block mb-2">
+                      Status
+                  </label>
+                  <select name="keterangan" class="form-control rounded-full" style="height: 40px;padding-left: 10px;">
+                    <option value="">Semua</option>
+                    <option value="Lanjut Kerja">Lanjut Kerja</option>
+                    <option value="Dirumahkan">Dirumahkan</option>
+                  </select>
+                </div>
+                <div class="mt-5 text-right">
+                  <button class="btn btn-success rounded-full" style="width: 100%;" id="BTN_PRINT">Print Laporan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
         <!-- END: Users Layout -->
     </div>
     
@@ -84,7 +110,8 @@
               { "data": "tgl_penilaian", className: "text-right"},
               { "data": "id_karyawan", className: "text-center" },
               { "data": "nm_karyawan"},
-              { "data": "nilai_batas", className: "text-center"},
+              { "data": "kebutuhan_karyawan", className: "text-center"},
+              { "data": "nilai_batas", className: "text-right"},
               { "data": "nilai", className: "text-right"},
               { "data": "keterangan"},
           ]

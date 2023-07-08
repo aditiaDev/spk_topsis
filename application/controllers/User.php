@@ -12,6 +12,7 @@ class User extends CI_Controller {
 
 	public function index()
 	{
+
 		$this->load->view('template/header');
     $this->load->view('template/topmenu');
     $this->load->view('pages/user');
@@ -23,6 +24,12 @@ class User extends CI_Controller {
     $this->db->order_by('nm_pengguna', 'asc');
     $data['data'] = $this->db->get()->result();
     echo json_encode($data);
+  }
+
+  public function newUser(){
+    $user_id = $this->generateId();
+
+    echo $user_id;
   }
 
   public function generateId(){
@@ -68,6 +75,7 @@ class User extends CI_Controller {
               "username" => $this->input->post('username'),
               "password" => $this->input->post('password'),
               "level" => $this->input->post('level'),
+              "status_password" => "BELUM RESET"
             );
     $this->db->insert('tb_user', $data);
     $output = array("status" => "success", "message" => "Data Berhasil Disimpan");
@@ -112,6 +120,34 @@ class User extends CI_Controller {
     $this->db->delete('tb_user');
 
     $output = array("status" => "success", "message" => "Data Berhasil di Hapus");
+    echo json_encode($output);
+  }
+
+  public function resetPassword(){
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('nm_pengguna_reset', 'Nama Pengguna', 'required');
+    $this->form_validation->set_rules('password_reset', 'password', 'required|min_length[6]');
+
+    if($this->form_validation->run() == FALSE){
+      // echo validation_errors();
+      $output = array("status" => "error", "message" => validation_errors());
+      echo json_encode($output);
+      return false;
+    }
+
+    $data = array(
+      "nm_pengguna" => $this->input->post('nm_pengguna_reset'),
+      "password" => $this->input->post('password_reset'),
+      "status_password" => "SUDAH RESET",
+    );
+    $this->db->where('id_user', $this->input->post('id_user'));
+    $this->db->update('tb_user', $data);
+    if($this->db->error()['message'] != ""){
+      $output = array("status" => "error", "message" => $this->db->error()['message']);
+      echo json_encode($output);
+      return false;
+    }
+    $output = array("status" => "success", "message" => "Data Berhasil di Update");
     echo json_encode($output);
   }
 }

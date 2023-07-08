@@ -95,15 +95,28 @@
                       <label for="regular-form-1" class="inline-block mb-2">
                         Batas Rekrutmen Karyawan
                       </label>
-                      <select name="id_batas_kontrak" class="form-control" style="height: 40px;padding-left: 10px;" >
+                      <select name="id_batas_kontrak" class="form-control select2" data-placeholder="Pilih Batas Kontrak" style="height: 40px;padding-left: 10px;" >
+                        <option value=''></option>
                         <?php
-                          $data = $this->db->query("SELECT id_batas_kontrak, nilai_batas FROM tb_batas_kontrak ORDER BY nilai_batas")->result_array();
+                          $data = $this->db->query("SELECT id_batas_kontrak, nilai_batas, kebutuhan_karyawan FROM tb_batas_kontrak ORDER BY nilai_batas")->result_array();
                           foreach($data as $row){
-                            echo "<option value='".$row['id_batas_kontrak']."'>".$row['nilai_batas']."</option>";
+                            echo "<option value='".$row['id_batas_kontrak']."' nilai='".$row['nilai_batas']."' kebutuhan='".$row['kebutuhan_karyawan']."'>".$row['id_batas_kontrak']."</option>";
                           }
 
                         ?>
                       </select>
+                    </div>
+                    <div class="mt-3">
+                      <label for="regular-form-1" class="inline-block mb-2">
+                          Nilai Batas
+                      </label>
+                      <input type="text" name="nilai_batas" class="form-control rounded-full" readonly />
+                    </div>
+                    <div class="mt-3">
+                      <label for="regular-form-1" class="inline-block mb-2">
+                          Kebutuhan Karyawan
+                      </label>
+                      <input type="text" name="kebutuhan_karyawan" class="form-control rounded-full" readonly />
                     </div>
                     <div class="mt-5 text-right">
                       <button class="btn btn-success rounded-full" style="width: 100%;" id="BTN_NILAI">Proses Penilaian</button>
@@ -131,6 +144,14 @@
         REFRESH_DATA()
         ISI_SELECT()
         $(".select2").select2()
+
+        $("[name='id_batas_kontrak']").change(function(){
+          let nilai_batas = $("[name='id_batas_kontrak']").find(':selected').attr('nilai')
+          $("[name='nilai_batas']").val(nilai_batas)
+
+          let kebutuhan_karyawan = $("[name='id_batas_kontrak']").find(':selected').attr('kebutuhan')
+          $("[name='kebutuhan_karyawan']").val(kebutuhan_karyawan)
+        })
 
         $("#BTN_SAVE").click(function(){
           event.preventDefault();
