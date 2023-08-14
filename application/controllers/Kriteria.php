@@ -28,9 +28,13 @@ class Kriteria extends CI_Controller {
       A.nm_kriteria,
       A.jenis_kriteria,
       A.bobot_kriteria,
-      B.keterangan 
-    FROM tb_kriteria AS A 
-    LEFT JOIN tb_bobot AS B ON A.bobot_kriteria = B.nilai_bobot")->result();
+      case when A.bobot_kriteria = '5' then 'Sangat Tinggi' 
+      when A.bobot_kriteria = '4' then 'Tinggi'
+      when A.bobot_kriteria = '3' then 'Cukup'
+      when A.bobot_kriteria = '2' then 'Rendah'
+      when A.bobot_kriteria = '1' then 'Sangat Rendah' end
+      as keterangan 
+    FROM tb_kriteria AS A ")->result();
     echo json_encode($data);
   }
 

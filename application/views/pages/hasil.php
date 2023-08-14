@@ -3,6 +3,14 @@
   table thead th, table thead td, table tfoot th, table tfoot td, table tbody th, table tbody td {
     padding: 4px!important;
   }
+
+  .col-span-9 {
+    grid-column: span 9 / span 9;
+  }
+
+  .col-span-3 {
+    grid-column: span 3 / span 3;
+  }
 </style>
 <!-- BEGIN: Content -->
 <div class="content">
@@ -11,20 +19,45 @@
     </h2>
     <div class="grid grid-cols-12 gap-6 mt-5">
         <!-- BEGIN: Users Layout -->
-        <div class="intro-y col-span-8">
+        <div class="intro-y col-span-9">
             <div class="box">
               <div class="p-5">
+                <div class="grid grid-cols-12 gap-2">
+                  <div class="col-span-4">
+                    <label for="regular-form-1" class="inline-block mb-2">
+                        Tanggal Penilaian Dari
+                    </label>
+                    <input type="date" name="from" class="form-control">
+                  </div>
+
+                  <div class="col-span-4">
+                    <label for="regular-form-1" class="inline-block mb-2">
+                        Sampai
+                    </label>
+                    <input type="date" name="to" class="form-control">
+                  </div>
+
+                  <div class="col-span-4">
+                    <button class="btn btn-warning" style="margin-top: 27px;" id="btnShow">Show Data</button>
+                  </div>
+                </div>
                 <table id="tb_data" class="table table-striped table-bordered table-hover" style="font-size: 12px;">
                     <thead class="bg-gray-50">
                       <tr>
-                        <th class="p-8 text-xs text-gray-500" style="width: 100px;">
+                        <th class="p-8 text-xs text-gray-500" style="width: 40px;">
                           Rank
                         </th>
                         <th class="p-8 text-xs text-gray-500">
                           ID Hasil
                         </th>
-                        <th class="p-8 text-xs text-gray-500" style="width: 100px;">
+                        <th class="p-8 text-xs text-gray-500">
                           Tanggal Penilaian
+                        </th>
+                        <th class="p-8 text-xs text-gray-500"  style="width: 100px;">
+                          Unit
+                        </th>
+                        <th class="p-8 text-xs text-gray-500">
+                          Kepala Unit
                         </th>
                         <th class="p-8 text-xs text-gray-500">
                           ID Karyawan
@@ -53,7 +86,10 @@
               </div>
             </div>
         </div>
-        <div class="intro-y col-span-4">
+        <?php
+          if($this->session->userdata('level') == "ADMIN" || $this->session->userdata('level') == "KEPALA UNIT"){
+        ?>
+        <div class="intro-y col-span-3">
           <div class="box">
             <div class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row">
               <h2 class="mr-auto text-base font-medium">Cetak Laporan</h2>
@@ -77,6 +113,7 @@
             </div>
           </div>
         </div>
+        <?php } ?>
         <!-- END: Users Layout -->
     </div>
     
@@ -89,25 +126,37 @@
 
 
     $(document).ready(function () {
-        REFRESH_DATA()
-
+        
+        $("#btnShow").click(function(){
+          REFRESH_DATA()
+        })
     });
 
     function REFRESH_DATA(){
       $('#tb_data').DataTable().destroy();
       var tb_data =  $("#tb_data").DataTable({
-          "order": [[ 0, "asc" ]],
+          "order": [[ 2, "desc" ],[ 0, "asc" ]],
           "pageLength": 25,
           "autoWidth": false,
           "responsive": true,
           "ajax": {
               "url": "<?php echo site_url('penilaian/getHasil') ?>",
               "type": "POST",
+              "data": {
+                "from" : $("[name='from']").val(),
+                "to" : $("[name='to']").val(),
+              },
           },
           "columns": [
               { "data": "rank", className: "text-center" },
               { "data": "id_hasil", className: "text-center" },
               { "data": "tgl_penilaian", className: "text-right"},
+              { "data": null, 
+                "render" : function(data){
+                  return data.id_unit+"</br>"+data.nm_unit
+                },
+              },
+              { "data": "kepala_unit"},
               { "data": "id_karyawan", className: "text-center" },
               { "data": "nm_karyawan"},
               { "data": "kebutuhan_karyawan", className: "text-center"},

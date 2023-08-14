@@ -66,6 +66,15 @@ class Penilaian extends CI_Controller {
       
     }
 
+    $name = array();
+    foreach($nama as $dt){
+      $name[] = $dt;
+    }
+
+    // echo "<pre>";
+    // print_r($name);
+    // echo "</pre>";
+
     foreach($nilai_kuadrat as $kuadrat=>$val){
       $pembagi[$kuadrat] = sqrt($val);
     }
@@ -81,11 +90,11 @@ class Penilaian extends CI_Controller {
 
     $result['data'] = $data;
     $result['kriteria'] = $kriteria;
-    $result['nama'] = $nama;
+    // $result['nama'] = $nama;
+    $result['nama'] = $name;
     $result['pembagi'] = $pembagi;
     $result['bobot'] = $bobot;
-
-
+    
     return $result;
   }
 
@@ -93,6 +102,10 @@ class Penilaian extends CI_Controller {
     
 
     $getData = $this->getData();
+
+    // echo "<pre>";
+    // print_r($getData);
+    // echo "</pre>";
 
     $no=0;
     $table="";
@@ -104,6 +117,7 @@ class Penilaian extends CI_Controller {
       }
 
       $td_nama = "<td>".$getData['data'][$row][$getData['nama'][$no]]."</td>";
+      // $td_nama = "<td></td>";
 
       $table .= "<tr>
                 <td>".++$no."</td>
@@ -405,9 +419,9 @@ class Penilaian extends CI_Controller {
 
     echo $table;
 
-    // echo "<pre>";
-    // print_r($getData);
-    // echo "</pre><br>";
+    echo "<pre>";
+    print_r($getData);
+    echo "</pre><br>";
   }
 
   public function hasil()
@@ -419,12 +433,25 @@ class Penilaian extends CI_Controller {
 	}
 
   public function getHasil(){
+
+    $id_unit = "";
+    if($this->session->userdata('level') == "KEPALA UNIT"){
+      $id_unit = $this->db->query("SELECT id_unit FROM tb_unit where id_user='".$this->session->userdata('id_user')."'")->row()->id_unit;
+    }elseif($this->session->userdata('level') == "KARYAWAN"){
+      $id_unit = $this->db->query("SELECT id_unit FROM tb_karyawan_kontrak where id_user='".$this->session->userdata('id_user')."'")->row()->id_unit;
+    }
+
     $data['data'] = $this->db->query("
       SELECT A.rank, A.id_hasil, A.id_karyawan, B.nm_karyawan, concat(C.kebutuhan_karyawan, ' Orang') as kebutuhan_karyawan, C.nilai_batas,
-      A.tgl_penilaian, A.keterangan, A.nilai 
+      A.tgl_penilaian, A.keterangan, A.nilai,
+      B.id_unit, D.nm_unit, D.kepala_unit 
       FROM tb_hasil_penilaian A
       LEFT JOIN tb_karyawan_kontrak B ON A.id_karyawan = B.id_karyawan
       LEFT JOIN tb_batas_kontrak C ON A.id_batas_kontrak = C.id_batas_kontrak
+      LEFT JOIN tb_unit D ON B.id_unit = D.id_unit
+      WHERE B.id_unit LIKE '%".$id_unit."%'
+      and A.tgl_penilaian >= '".$this->input->post('from')."'
+      and A.tgl_penilaian < DATE_ADD('".$this->input->post('to')."', INTERVAL 1 DAY)
       ORDER BY rank
     ")->result();
     echo json_encode($data);
@@ -461,7 +488,7 @@ class Penilaian extends CI_Controller {
       return false;
     }
 
-    $this->db->query("DELETE FROM tb_hasil_penilaian");
+    // $this->db->query("DELETE FROM tb_hasil_penilaian");
 
     $tgl_penilaian = date('Y-m-d');
 
@@ -484,6 +511,11 @@ class Penilaian extends CI_Controller {
 
       if($rank <= $kebutuhan_karyawan AND $nilai >= $nilai_batas){
         $ket_lulus = 'Lanjut Kerja';
+
+        $this->db->query("
+          UPDATE tb_karyawan_kontrak SET tgl_kontrak = DATE_ADD(tgl_kontrak,INTERVAL 1 YEAR) 
+          WHERE id_karyawan = '".$row."'
+        ");
       }else{
         $ket_lulus = 'Dirumahkan';
       }
@@ -501,6 +533,26 @@ class Penilaian extends CI_Controller {
               );
       $this->db->insert('tb_hasil_penilaian', $data);
 
+      $sql = $this->db->query("
+        select nm_karyawan, no_karyawan, tgl_kontrak from tb_karyawan_kontrak
+        WHERE id_karyawan = '".$row."'
+      ")->result_array();
+
+      foreach($sql as $rows){
+        $no_wa = $rows['no_karyawan'];
+
+        if($ket_lulus == 'Lanjut Kerja'){
+          $message = "Selamat kepada Saudara/i atas nama ".$rows['nm_karyawan'].", Kontrak anda akan diperpanjang sampai ".$rows['tgl_kontrak'];
+        }else{
+          $message = "Mohon maaf pada saudara/i atas nama ".$rows['nm_karyawan'].", Kontrak anda anda akan berakhir pada ".$rows['tgl_kontrak'].". Apabila ada pertanyaan, silahkan untuk dapat datang ke HRD";
+        }
+
+        
+        $this->zenziva_api($no_wa, $message);
+        // echo $message."</br>";
+  
+      }
+
       $i++;
     }
 
@@ -510,6 +562,30 @@ class Penilaian extends CI_Controller {
     // echo "<pre>";
     // print_r($getData);
     // echo "</pre><br>";
+  }
+
+  function zenziva_api($no_wa, $message){
+    $userkey = "9b85e05d0de7";
+    $passkey = "83f0dd70ecb6c588f2ab2cc3";
+    $url = "https://console.zenziva.net/wareguler/api/sendWA/";
+
+    $curlHandle = curl_init();
+    curl_setopt($curlHandle, CURLOPT_URL, $url);
+    curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+    curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+    curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+    curl_setopt($curlHandle, CURLOPT_POST, 1);
+    curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
+      'userkey' => $userkey,
+      'passkey' => $passkey,
+      'to' => $no_wa,
+      'message' => $message
+    ));
+    $results = json_decode(curl_exec($curlHandle), true);
+    curl_close($curlHandle);
+    return $results['text'];
   }
 
 }

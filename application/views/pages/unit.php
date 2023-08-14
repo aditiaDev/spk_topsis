@@ -56,7 +56,7 @@
                 </div>
                 <div class="mt-3">
                   <label for="regular-form-1" class="inline-block mb-2">
-                      Kepala Unit
+                      Nama Kepala Unit
                   </label>
                   <input type="text" name="kepala_unit" class="form-control rounded-full" />
                 </div>

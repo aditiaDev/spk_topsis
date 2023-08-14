@@ -48,6 +48,7 @@ class Kontrak extends CI_Controller {
     
     $this->load->library('form_validation');
     $this->form_validation->set_rules('nilai_batas', 'Nilai Batas', 'required|numeric');
+    $this->form_validation->set_rules('kebutuhan_karyawan', 'Kebutuhan Karyawan', 'required|numeric');
 
     if($this->form_validation->run() == FALSE){
       // echo validation_errors();
@@ -61,6 +62,7 @@ class Kontrak extends CI_Controller {
     $data = array(
               "id_batas_kontrak" => $id,
               "nilai_batas" => $this->input->post('nilai_batas'),
+              "kebutuhan_karyawan" => $this->input->post('kebutuhan_karyawan'),
             );
     $this->db->insert('tb_batas_kontrak', $data);
     $output = array("status" => "success", "message" => "Data Berhasil Disimpan");
@@ -72,6 +74,7 @@ class Kontrak extends CI_Controller {
 
     $this->load->library('form_validation');
     $this->form_validation->set_rules('nilai_batas', 'Nilai Batas', 'required|numeric');
+    $this->form_validation->set_rules('kebutuhan_karyawan', 'Kebutuhan Karyawan', 'required|numeric');
 
     if($this->form_validation->run() == FALSE){
       // echo validation_errors();
@@ -82,6 +85,7 @@ class Kontrak extends CI_Controller {
 
     $data = array(
         "nilai_batas" => $this->input->post('nilai_batas'),
+        "kebutuhan_karyawan" => $this->input->post('kebutuhan_karyawan'),
     );
     $this->db->where('id_batas_kontrak', $this->input->post('id_batas_kontrak'));
     $this->db->update('tb_batas_kontrak', $data);

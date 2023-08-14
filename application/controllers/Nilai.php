@@ -19,20 +19,33 @@ class Nilai extends CI_Controller {
 	}
 
   public function getAllData(){
+    $id_unit = "";
+    if($this->session->userdata('level') == "KEPALA UNIT"){
+      $id_unit = $this->db->query("SELECT id_unit FROM tb_unit where id_user='".$this->session->userdata('id_user')."'")->row()->id_unit;
+    }
+
     $data['data'] = $this->db->query("
       SELECT 
       A. id_penilaian_karyawan, A.id_karyawan, B.nm_karyawan, A.id_kriteria, CONCAT(A.id_kriteria, ' - ', C.nm_kriteria) AS kriteria, A.nilai_kriteria
       FROM tb_penilaian_karyawan A
       LEFT JOIN tb_karyawan_kontrak B ON A.id_karyawan = B.id_karyawan
       LEFT JOIN tb_kriteria C ON A.id_kriteria = C.id_kriteria
+      WHERE B.id_unit LIKE '%".$id_unit."%'
       ORDER BY A.id_kriteria, A.id_karyawan
     ")->result();
     echo json_encode($data);
   }
 
   public function getKaryawan(){
+
+    $id_unit = "";
+    if($this->session->userdata('level') == "KEPALA UNIT"){
+      $id_unit = $this->db->query("SELECT id_unit FROM tb_unit where id_user='".$this->session->userdata('id_user')."'")->row()->id_unit;
+    }
+
     $data['data'] = $this->db->query("
       SELECT id_karyawan, nm_karyawan FROM tb_karyawan_kontrak
+      WHERE id_unit LIKE '%".$id_unit."%'
       ORDER BY nm_karyawan
     ")->result(); 
 

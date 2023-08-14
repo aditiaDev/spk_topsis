@@ -60,3 +60,5 @@ $route['master/karyawan'] = 'karyawan';
 $route['master/kontrak'] = 'kontrak';
 
 $route['hasil'] = 'penilaian/hasil';
+
+$route['laporan/rptHasil'] = 'laporan/rptHasil';

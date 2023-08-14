@@ -59,7 +59,7 @@ class Unit extends CI_Controller {
     $this->load->library('form_validation');
     $this->form_validation->set_rules('nm_unit', 'nm_unit', 'required|is_unique[tb_unit.nm_unit]');
 
-    $this->form_validation->set_rules('id_user', 'id_user', 'required');
+    $this->form_validation->set_rules('id_user', 'id_user', 'required|is_unique[tb_unit.id_user]');
     $this->form_validation->set_rules('kepala_unit', 'kepala_unit', 'required');
 
     if($this->form_validation->run() == FALSE){

@@ -58,16 +58,11 @@
                     Bobot Kriteria
                   </label>
                   <select name="bobot_kriteria" class="form-control rounded-full" style="height: 40px;padding-left: 10px;">
-                    <?php
-                      $data = $this->db->query("
-                      SELECT 
-                        nilai_bobot,
-                        keterangan 
-                      FROM tb_bobot ORDER BY nilai_bobot")->result_array();
-                      foreach($data as $row){
-                        echo "<option value='".$row['nilai_bobot']."'>".$row['keterangan']."</option>";
-                      }
-                    ?>
+                    <option value="1">Sangat Rendah</option>
+                    <option value="2">Rendah</option>
+                    <option value="3">Cukup</option>
+                    <option value="4">Tinggi</option>
+                    <option value="5">Sangat Tinggi</option>
                   </select>
                 </div>
                 <div class="mt-3">

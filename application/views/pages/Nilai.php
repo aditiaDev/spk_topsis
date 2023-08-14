@@ -32,9 +32,13 @@
                         <th class="p-8 text-xs text-gray-500">
                           Nilai
                         </th>
+                        <?php
+                        if($this->session->userdata('level') == "KEPALA UNIT"){
+                        ?>
                         <th class="p-8 text-xs text-gray-500" style="width: 100px;">
                           Action
                         </th>
+                        <?php } ?>
                       </tr>
                     </thead>
                     <tbody class="bg-white">
@@ -44,6 +48,9 @@
             </div>
         </div>
         <div class="intro-y col-span-4">
+          <?php
+          if($this->session->userdata('level') == "KEPALA UNIT"){
+          ?>
           <div>
             <div class="intro-y col-span-12">
               <div class="box">
@@ -83,7 +90,11 @@
               </div>
             </div>
           </div>
-          <div class="mt-3">
+          <?php
+          }
+          if($this->session->userdata('level') == "ADMIN"){
+          ?>
+          <div>
             <div class="intro-y col-span-12">
               <div class="box">
                 <div class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row">
@@ -126,6 +137,7 @@
               </div>
             </div>
           </div>
+          <?php } ?>
         </div>
 
         <!-- END: Users Layout -->
@@ -171,7 +183,7 @@
         $("#BTN_BATAL").click(function(){
           event.preventDefault();
           $("#FRM_DATA")[0].reset()
-          $("[name='id_user']").val('').trigger('change')
+          $("[name='id_karyawan']").val('').trigger('change')
           $("#judul_entry").text('Tambah Data')
           save_method = 'save'
         })
@@ -193,7 +205,7 @@
               $("#LOADER").hide();
             },
             success: function(data){
-              console.log(data)
+              // console.log(data)
               if (data.status == "success") {
                 toastr.info(data.message)
                 window.location.href = "<?php echo site_url('hasil') ?>";
@@ -225,6 +237,9 @@
               { "data": "nm_karyawan"},
               { "data": "kriteria"},
               { "data": "nilai_kriteria", className: "text-right"},
+              <?php
+              if($this->session->userdata('level') == "KEPALA UNIT"){
+              ?>
               { "data": null, 
                 "render" : function(data){
                   return "<button class='btn btn-sm btn-warning' title='Edit Data' onclick='editData("+JSON.stringify(data)+");'>Edit </button> "+
@@ -232,6 +247,7 @@
                 },
                 className: "text-center"
               },
+              <?php } ?>
           ]
         }
       )
@@ -287,7 +303,7 @@
               toastr.info(data.message)
               REFRESH_DATA()
               $("#FRM_DATA")[0].reset()
-              $("[name='id_user']").val('').trigger('change')
+              $("[name='id_karyawan']").val('').trigger('change')
 
             }else{
               toastr.error(data.message)

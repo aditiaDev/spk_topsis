@@ -8,7 +8,7 @@
             </a>
         </li>
         <?php
-          if($this->session->userdata('level') == "ADMIN" || $this->session->userdata('level') == "KEPALA UNIT"){
+          if($this->session->userdata('level') == "ADMIN"){
         ?>
         <li>
             <a href="javascript:;" class="top-menu <?= ($this->uri->segment(1) == 'master') ? 'top-menu--active' : '' ?>">
@@ -63,12 +63,54 @@
         <?php
         }
         ?>
+        <?php
+          if($this->session->userdata('level') == "KEPALA UNIT"){
+        ?>
+        <li>
+            <a href="javascript:;" class="top-menu <?= ($this->uri->segment(1) == 'master') ? 'top-menu--active' : '' ?>">
+                <div class="top-menu__icon"> <i data-feather="box"></i> </div>
+                <div class="top-menu__title"> Master Data  <i data-feather="chevron-down" class="top-menu__sub-icon"></i> </div>
+            </a>
+            <ul class="">
+                <li>
+                    <a href="<?php echo base_url("master/karyawan")?>" class="top-menu">
+                        <div class="top-menu__icon"> <i data-feather="user"></i> </div>
+                        <div class="top-menu__title"> Data Karyawan Kontrak </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="<?php echo base_url("nilai")?>" class="top-menu <?= ($this->uri->segment(1) == 'nilai') ? 'top-menu--active' : '' ?>">
+                <div class="top-menu__icon"> <i data-feather="edit"></i> </div>
+                <div class="top-menu__title"> Input Nilai </div>
+            </a>
+        </li>
+        <?php } ?>
+        
         <li>
             <a href="<?php echo base_url("hasil")?>" class="top-menu <?= ($this->uri->segment(1) == 'hasil') ? 'top-menu--active' : '' ?>">
                 <div class="top-menu__icon"> <i data-feather="list"></i> </div>
                 <div class="top-menu__title"> Hasil Penilaian  </div>
             </a>
         </li>
+
+        <li>
+            <a href="javascript:;" class="top-menu <?= ($this->uri->segment(1) == 'laporan') ? 'top-menu--active' : '' ?>">
+                <div class="top-menu__icon"> <i data-feather="list"></i> </div>
+                <div class="top-menu__title"> Laporan  <i data-feather="chevron-down" class="top-menu__sub-icon"></i> </div>
+            </a>
+            <ul class="">
+                <li>
+                    <a href="<?php echo base_url("laporan/rptHasil")?>" class="top-menu">
+                        <div class="top-menu__icon"> <i data-feather="list"></i> </div>
+                        <div class="top-menu__title"> Laporan Hasil Penilaian </div>
+                    </a>
+                </li>
+                
+            </ul>
+        </li>
+
     </ul>
 </nav>
 <!-- END: Top Menu -->

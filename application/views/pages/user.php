@@ -73,7 +73,7 @@
                       Level
                   </label>
                   <select name="level" class="form-control rounded-full" style="height: 40px;padding-left: 10px;">
-                    <option value="ADMIN">ADMIN</option>
+                    <!-- <option value="ADMIN">ADMIN</option> -->
                     <option value="KARYAWAN">KARYAWAN</option>
                     <option value="KEPALA UNIT">KEPALA UNIT</option>
                   </select>

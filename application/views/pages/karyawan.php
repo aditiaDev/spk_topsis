@@ -22,6 +22,9 @@
                           ID Karyawan
                         </th>
                         <th class="p-8 text-xs text-gray-500">
+                          ID User
+                        </th>
+                        <th class="p-8 text-xs text-gray-500">
                           Unit
                         </th>
                         <th class="p-8 text-xs text-gray-500">
@@ -131,6 +134,23 @@
                             </div>
                           </div>
                         </div>
+
+                        <div class="mt-3">
+                          <div class="grid grid-cols-12 gap-2">
+                            <div class="intro-y col-span-6">
+                              <label for="regular-form-1" class="inline-block mb-2">
+                                Username
+                              </label>
+                              <input type="text" name="username" class="form-control rounded-full" readonly/>
+                            </div>
+                            <div class="intro-y col-span-6">
+                              <label for="regular-form-1" class="inline-block mb-2">
+                                Password
+                              </label>
+                              <input type="password" name="password" class="form-control rounded-full" readonly/>
+                            </div>
+                          </div>
+                        </div>
                       
                     </div>
                   </div>
@@ -155,6 +175,7 @@
 
     $(document).ready(function () {
         REFRESH_DATA()
+        
         ISI_SELECT()
         $(".select2").select2()
 
@@ -177,12 +198,25 @@
           $("#FRM_DATA")[0].reset()
           $("[name='id_unit']").val('').trigger('change')
           $("#modal_add .modal-title").text('Tambah Data')
+          generateId()
           save_method = "save"
           modalShow('modal_add')
         })
 
         
     });
+
+    function generateId(){
+      $.ajax({
+        url: "<?php echo site_url('user/newUser') ?>",
+        type: "POST",
+        success: function(data){
+          console.log(data)
+          $("[name='username']").val(data)
+          $("[name='password']").val(data)
+        }
+      })
+    }
 
     function REFRESH_DATA(){
       $('#tb_data').DataTable().destroy();
@@ -197,6 +231,7 @@
           },
           "columns": [
               { "data": "id_karyawan", className: "text-center" },
+              { "data": "id_user", className: "text-center" },
               { "data": "id_unit", className: "text-center" },
               { "data": "nm_karyawan"},
               { "data": "alamat_karyawan"},
