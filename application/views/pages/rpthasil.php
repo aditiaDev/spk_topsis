@@ -88,7 +88,12 @@
         dataType: "JSON",
         success: function(data){
           // console.log(data)
-          var row = "<option value=''>Semua</option>"
+          var row = ""
+          <?php
+            if($this->session->userdata('level') == "ADMIN"){
+          ?>
+          row = "<option value=''>Semua</option>"
+          <?php } ?>
           $.map( data['data'], function( val, i ) {
             row += "<option value='"+val.id_unit+"' dtl='"+val.nm_unit+"'>"+val.id_unit+" - "+val.nm_unit+"</option>"
             

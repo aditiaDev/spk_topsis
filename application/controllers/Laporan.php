@@ -52,7 +52,7 @@ class Laporan extends CI_Controller {
       SELECT A.rank, A.id_hasil, A.id_karyawan, B.nm_karyawan, 
       concat(C.kebutuhan_karyawan, ' Orang') as kebutuhan_karyawan, C.nilai_batas,
       A.tgl_penilaian, A.keterangan, A.nilai,
-      B.id_unit, D.nm_unit, D.kepala_unit  
+      B.id_unit, D.nm_unit, D.kepala_unit, B.tgl_kontrak  
       FROM tb_hasil_penilaian A
       LEFT JOIN tb_karyawan_kontrak B ON A.id_karyawan = B.id_karyawan
       LEFT JOIN tb_batas_kontrak C ON A.id_batas_kontrak = C.id_batas_kontrak

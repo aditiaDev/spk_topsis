@@ -26,6 +26,7 @@
           <th class="normal">Batas Rekrutmen</th>
           <th class="normal">Batas Nilai</th>
           <th class="normal">Nilai</th>
+          <th class="normal">Habis Kontrak</th>
           <th class="normal">Keterangan</th>
 	  		</tr>
 	  	</thead>
@@ -41,6 +42,7 @@
 					<td><?php echo $row['kebutuhan_karyawan']; ?></td>
 					<td><?php echo $row['nilai_batas']; ?></td>
 					<td><?php echo $row['nilai']; ?></td>
+          <td><?php echo $row['tgl_kontrak']; ?></td>
 					<td style="<?= $row['keterangan'] == "Dirumahkan" ? 'background-color:red;' : ''; ?>" ><?php echo $row['keterangan']; ?></td>
 				</tr>
 	  		<?php endforeach; ?>

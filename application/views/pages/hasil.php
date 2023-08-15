@@ -89,7 +89,7 @@
         <?php
           if($this->session->userdata('level') == "ADMIN" || $this->session->userdata('level') == "KEPALA UNIT"){
         ?>
-        <div class="intro-y col-span-3">
+        <!-- <div class="intro-y col-span-3">
           <div class="box">
             <div class="flex flex-col items-center border-b border-slate-200/60 p-5 dark:border-darkmode-400 sm:flex-row">
               <h2 class="mr-auto text-base font-medium">Cetak Laporan</h2>
@@ -112,7 +112,7 @@
               </form>
             </div>
           </div>
-        </div>
+        </div> -->
         <?php } ?>
         <!-- END: Users Layout -->
     </div>
